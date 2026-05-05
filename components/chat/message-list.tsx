@@ -4,10 +4,10 @@ import React, { useEffect, useRef } from "react";
 import { useChat } from "@/lib/hooks/use-chat";
 import { useAuth } from "@/lib/hooks/use-auth";
 import { cn } from "@/lib/utils";
-import { ShieldCheck, Clock, Checks } from "@phosphor-icons/react";
+import { ShieldCheck, Clock, Checks, CaretLeft } from "@phosphor-icons/react";
 
 export function MessageList() {
-  const { messages, decryptedMessages, activeRecipientId, conversations } = useChat();
+  const { messages, decryptedMessages, activeRecipientId, setActiveRecipientId, conversations } = useChat();
   const { user } = useAuth();
   const scrollRef = useRef<HTMLDivElement>(null);
 
@@ -37,7 +37,13 @@ export function MessageList() {
   return (
     <div className="flex flex-1 flex-col bg-[#0B141A] overflow-hidden relative">
       {/* Chat Header */}
-      <div className="flex items-center gap-3 border-b border-[#202C33] px-6 py-4 bg-[#202C33] z-10">
+      <div className="flex items-center gap-3 border-b border-[#202C33] px-4 md:px-6 py-4 bg-[#202C33] z-10">
+        <button 
+          onClick={() => setActiveRecipientId(null)}
+          className="md:hidden p-2 -ml-2 text-[#E9EDEF]/60 hover:text-[#53BDEB] transition-colors"
+        >
+          <CaretLeft size={24} weight="bold" />
+        </button>
         <div className="flex h-10 w-10 items-center justify-center rounded-full bg-[#0B141A] text-[#53BDEB]">
           <ShieldCheck size={24} weight="bold" />
         </div>
