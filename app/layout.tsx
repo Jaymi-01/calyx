@@ -18,6 +18,9 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   title: "Calyx - Secure E2EE Messaging",
   description: "End-to-end encrypted messaging application.",
+  icons: {
+    icon: "/calyx-logo.png",
+  },
 };
 
 import { AuthProvider } from "@/lib/hooks/use-auth";
