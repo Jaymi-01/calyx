@@ -103,7 +103,7 @@ export function ChatProvider({ children }: { children: React.ReactNode }) {
           else mimeType = 'image/jpeg';
         }
 
-        const blob = new Blob([decryptedBinary], { type: mimeType });
+        const blob = new Blob([decryptedBinary as any], { type: mimeType });
         const reader = new FileReader();
         reader.onloadend = () => {
           setDecryptedMessages(prev => ({ ...prev, [message.id]: reader.result as string }));
