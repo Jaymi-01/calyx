@@ -59,8 +59,16 @@ export default function Home() {
   // Final secure chat interface
   return (
     <div className="flex h-screen w-full overflow-hidden bg-[#0B141A] text-[#E9EDEF]">
-      <Sidebar />
-      <main className="flex flex-1 flex-col relative">
+      <div className={cn(
+        "h-full transition-all duration-300 ease-in-out",
+        activeRecipientId ? "hidden md:block md:w-80" : "w-full md:w-80"
+      )}>
+        <Sidebar />
+      </div>
+      <main className={cn(
+        "flex-1 flex flex-col relative h-full transition-all duration-300 ease-in-out",
+        activeRecipientId ? "flex" : "hidden md:flex"
+      )}>
         <MessageList />
         <MessageInput />
       </main>
