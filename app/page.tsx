@@ -1,11 +1,13 @@
 "use client";
 
 import { useAuth } from "@/lib/hooks/use-auth";
+import { useChat } from "@/lib/hooks/use-chat";
 import { Sidebar } from "@/components/chat/sidebar";
 import { MessageList } from "@/components/chat/message-list";
 import { MessageInput } from "@/components/chat/message-input";
 import { ShieldCheck } from "@phosphor-icons/react";
 import AuthPage from "./auth/page";
+import { cn } from "@/lib/utils";
 
 export default function Home() {
   const { user, isLoading, privateKey, logout } = useAuth();
