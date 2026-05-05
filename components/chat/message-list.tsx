@@ -63,71 +63,73 @@ export function MessageList() {
         ref={scrollRef}
         className="flex-1 overflow-y-auto p-6 space-y-4 doodle-bg"
       >
-        {messages.length === 0 ? (
-          <div className="flex h-full flex-col items-center justify-center text-center opacity-20 text-[#E9EDEF]">
-            <Clock size={32} className="mb-2" />
-            <p className="text-sm">No messages yet. Send a secure message to start.</p>
-          </div>
-        ) : (
-          messages.map((msg) => {
-            const isMe = msg.from_user_id === user?.id;
-            const content = decryptedMessages[msg.id];
+        <div className="relative z-10 flex flex-col space-y-4">
+          {messages.length === 0 ? (
+            <div className="flex h-full flex-col items-center justify-center text-center opacity-20 text-[#E9EDEF] py-20">
+              <Clock size={32} className="mb-2" />
+              <p className="text-sm">No messages yet. Send a secure message to start.</p>
+            </div>
+          ) : (
+            messages.map((msg) => {
+              const isMe = msg.from_user_id === user?.id;
+              const content = decryptedMessages[msg.id];
 
-            return (
-              <div
-                key={msg.id}
-                className={cn(
-                  "flex w-full flex-col animate-in fade-in slide-in-from-bottom-2 duration-300",
-                  isMe ? "items-end" : "items-start"
-                )}
-              >
+              return (
                 <div
+                  key={msg.id}
                   className={cn(
-                    "max-w-[75%] rounded-2xl px-4 py-2.5 text-sm shadow-md transition-all hover:shadow-lg relative overflow-hidden",
-                    isMe
-                      ? "bg-[#005C4B] text-[#E9EDEF] rounded-tr-none"
-                      : "bg-[#202C33] text-[#E9EDEF] rounded-tl-none border border-[#202C33]"
+                    "flex w-full flex-col animate-in fade-in slide-in-from-bottom-2 duration-300",
+                    isMe ? "items-end" : "items-start"
                   )}
                 >
-                  {content === undefined ? (
-                    <span className="italic opacity-50 animate-pulse">Decrypting...</span>
-                  ) : msg.payload.type === 'image' ? (
-                    <div className="flex flex-col gap-2">
-                      <img 
-                        src={content} 
-                        alt="Shared image" 
-                        className="rounded-lg max-h-64 object-contain bg-black/20"
-                      />
-                      {isMe && (
-                        <div className={cn(
-                          "flex self-end transition-colors",
-                          msg.delivered ? "text-[#53BDEB]" : "text-[#E9EDEF]/20"
-                        )}>
-                          <Checks size={16} weight="bold" />
-                        </div>
-                      )}
-                    </div>
-                  ) : (
-                    <div className="flex items-end gap-2">
-                      <span>{content}</span>
-                      {isMe && (
-                        <div className={cn(
-                          "flex mb-0.5 transition-colors",
-                          msg.delivered ? "text-[#53BDEB]" : "text-[#E9EDEF]/20"
-                        )}>
-                          <Checks size={16} weight="bold" />
-                        </div>
-                      )}
-                    </div>
-                  )}
+                  <div
+                    className={cn(
+                      "max-w-[75%] rounded-2xl px-4 py-2.5 text-sm shadow-md transition-all hover:shadow-lg relative overflow-hidden",
+                      isMe
+                        ? "bg-[#005C4B] text-[#E9EDEF] rounded-tr-none"
+                        : "bg-[#202C33] text-[#E9EDEF] rounded-tl-none border border-[#202C33]"
+                    )}
+                  >
+                    {content === undefined ? (
+                      <span className="italic opacity-50 animate-pulse">Decrypting...</span>
+                    ) : msg.payload.type === 'image' ? (
+                      <div className="flex flex-col gap-2">
+                        <img 
+                          src={content} 
+                          alt="Shared image" 
+                          className="rounded-lg max-h-64 object-contain bg-black/20"
+                        />
+                        {isMe && (
+                          <div className={cn(
+                            "flex self-end transition-colors",
+                            msg.delivered ? "text-[#53BDEB]" : "text-[#E9EDEF]/20"
+                          )}>
+                            <Checks size={16} weight="bold" />
+                          </div>
+                        )}
+                      </div>
+                    ) : (
+                      <div className="flex items-end gap-2">
+                        <span>{content}</span>
+                        {isMe && (
+                          <div className={cn(
+                            "flex mb-0.5 transition-colors",
+                            msg.delivered ? "text-[#53BDEB]" : "text-[#E9EDEF]/20"
+                          )}>
+                            <Checks size={16} weight="bold" />
+                          </div>
+                        )}
+                      </div>
+                    )}
+                  </div>
+                  <span className="mt-1 px-1 text-[10px] text-[#E9EDEF]/40">
+                    {new Date(msg.created_at).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+                  </span>
                 </div>
-                <span className="mt-1 px-1 text-[10px] text-[#E9EDEF]/40">
-                  {new Date(msg.created_at).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
-                </span>
-              </div>
-            );
-          })
-        )}
+              );
+            })
+          )}
+        </div>
       </div>
     </div>
   );
