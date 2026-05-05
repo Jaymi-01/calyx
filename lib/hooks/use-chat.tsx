@@ -85,16 +85,32 @@ export function ChatProvider({ children }: { children: React.ReactNode }) {
         encryptedKey: isSender ? message.payload.encryptedKeyForSelf : message.payload.encryptedKey
       };
 
-      if (message.payload.type === 'image') {
-        const decryptedBinary = await cryptoUtils.decryptBinary(payload, privateKey);
-        const blob = new Blob([decryptedBinary], { type: message.payload.mime_type || 'image/jpeg' });
+      const decryptedBinary = await cryptoUtils.decryptBinary(payload, privateKey);
+
+      // Sniff for image magic numbers
+      const isPNG = decryptedBinary[0] === 0x89 && decryptedBinary[1] === 0x50 && decryptedBinary[2] === 0x4E && decryptedBinary[3] === 0x47;
+      const isJPEG = decryptedBinary[0] === 0xFF && decryptedBinary[1] === 0xD8 && decryptedBinary[2] === 0xFF;
+      const isGIF = decryptedBinary[0] === 0x47 && decryptedBinary[1] === 0x49 && decryptedBinary[2] === 0x46;
+      const isWebP = decryptedBinary[8] === 0x57 && decryptedBinary[9] === 0x45 && decryptedBinary[10] === 0x42 && decryptedBinary[11] === 0x50;
+
+      if (message.payload.type === 'image' || isPNG || isJPEG || isGIF || isWebP) {
+        let mimeType = message.payload.mime_type;
+        if (!mimeType) {
+          if (isPNG) mimeType = 'image/png';
+          else if (isJPEG) mimeType = 'image/jpeg';
+          else if (isGIF) mimeType = 'image/gif';
+          else if (isWebP) mimeType = 'image/webp';
+          else mimeType = 'image/jpeg';
+        }
+
+        const blob = new Blob([decryptedBinary], { type: mimeType });
         const reader = new FileReader();
         reader.onloadend = () => {
           setDecryptedMessages(prev => ({ ...prev, [message.id]: reader.result as string }));
         };
         reader.readAsDataURL(blob);
       } else {
-        const plaintext = await cryptoUtils.decryptMessage(payload, privateKey);
+        const plaintext = new TextDecoder().decode(decryptedBinary);
         setDecryptedMessages(prev => ({ ...prev, [message.id]: plaintext }));
       }
     } catch (e) {
