@@ -12,7 +12,7 @@ export function Sidebar() {
   const { user, logout } = useAuth();
 
   return (
-    <div className="flex h-full w-80 flex-col border-r border-[#202C33] bg-[#0B141A] z-20">
+    <div className="flex h-full w-full flex-col border-r border-[#202C33] bg-[#0B141A] z-20">
       {/* Header */}
       <div className="flex items-center justify-between border-b border-[#202C33] p-6 bg-[#202C33]">
         <div className="flex items-center gap-3">
