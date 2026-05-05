@@ -11,6 +11,7 @@ import { cn } from "@/lib/utils";
 
 export default function Home() {
   const { user, isLoading, privateKey, logout } = useAuth();
+  const { activeRecipientId } = useChat();
 
   if (isLoading) {
     return (
