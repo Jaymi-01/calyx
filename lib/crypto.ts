@@ -169,7 +169,7 @@ export async function encryptBinary(
   const encryptedContent = await window.crypto.subtle.encrypt(
     { name: "AES-GCM", iv },
     aesKey,
-    data
+    data as any
   );
 
   // 4. Export AES key to encrypt it with RSA
