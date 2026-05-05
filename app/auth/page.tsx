@@ -39,8 +39,8 @@ export default function AuthPage() {
     <div className="flex min-h-screen items-center justify-center bg-[#0B141A] p-4 font-sans text-[#E9EDEF]">
       <div className="w-full max-w-md space-y-8 rounded-2xl bg-[#202C33] p-8 shadow-xl border border-[#202C33]">
         <div className="text-center">
-          <div className="inline-flex h-16 w-16 items-center justify-center rounded-full bg-[#005C4B] text-[#E9EDEF] mb-4">
-            <Lock size={32} weight="bold" />
+          <div className="inline-flex h-24 w-24 items-center justify-center rounded-3xl bg-[#005C4B]/20 mb-6 overflow-hidden border border-[#005C4B]/30 shadow-inner">
+            <img src="/calyx-logo.png" alt="Calyx Logo" className="h-16 w-16 object-contain" />
           </div>
           <h2 className="text-3xl font-bold tracking-tight text-[#E9EDEF]">
             {isLogin ? "Welcome back" : "Create an account"}
@@ -89,8 +89,8 @@ export default function AuthPage() {
               />
             </div>
             <div className="relative">
-              <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3 text-[#E9EDEF]/40">
-                <Lock size={20} />
+              <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
+                <img src="/calyx-logo.png" alt="Logo" className="h-5 w-5 object-contain grayscale opacity-60" />
               </div>
               <input
                 type="password"
